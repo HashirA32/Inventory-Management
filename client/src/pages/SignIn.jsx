@@ -62,7 +62,7 @@ const SignIn = () => {
   return (
     <div className="flex items-center justify-center h-screen w-screen ">
       <Card className="w-[350px] p-5 mb-5 ">
-        <div className="flex flex-col text-2xl font-bold text-center mb-5">
+        <div className="flex flex-col text-2xl font-bold text-center mb-3">
           Good to See You Again!
           <span className="text-[#8B5CF6]"> Let’s get you signed in</span>
         </div>
