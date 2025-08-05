@@ -16,6 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { RouteSignIn } from "../components/Helpers/RouteNames";
 import { getEnv } from "../components/Helpers/getEnv";
 import { showToast } from "../components/Helpers/ShowToast";
+import GoogleLogin from "../components/GoogleLogin";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -56,12 +57,12 @@ const SignUp = () => {
       );
       const data = await responce.json();
       if (!responce.ok) {
-        showToast("error", data.message);
+        return showToast("error", data.message);
       }
       navigate(RouteSignIn);
       showToast("success", data.message);
     } catch (error) {
-      showToast("error", error.message);
+      return showToast("error", error.message);
     }
   }
   return (
@@ -70,6 +71,12 @@ const SignUp = () => {
         <div className="flex flex-col text-2xl font-bold text-center mb-2">
           Join the Future
           <span className="text-[#8B5CF6]">Start Your Story Here</span>
+        </div>
+        <div className="">
+          <GoogleLogin />
+          <div className="flex items-center justify-center mt-8 border">
+            <span className="absolute bg-[#8B5CF6] p-1 rounded-sm">OR</span>
+          </div>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

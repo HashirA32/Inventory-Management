@@ -38,10 +38,10 @@ export const Login = async (req, res, next) => {
       next(handleError(409, "Invalid credentials"));
     }
     const hashedPassword = user.password;
-   const isMatch = await bcryptjs.compare(password, hashedPassword);
-if (!isMatch) {
-  return next(handleError(409, "Invalid credentials"));
-}
+    const isMatch = await bcryptjs.compare(password, hashedPassword);
+    if (!isMatch) {
+      return next(handleError(409, "Invalid credentials"));
+    }
 
     const token = jwt.sign(
       {
@@ -59,8 +59,57 @@ if (!isMatch) {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
       path: "/",
     });
-    const newUser = user.toObject({getters:true})
-    delete newUser.password
+    const newUser = user.toObject({ getters: true });
+    delete newUser.password;
+    res.status(200).json({
+      success: true,
+      user: newUser,
+      message: "Successfully LogeIn",
+    });
+  } catch (error) {
+    next(handleError(500, error.message));
+  }
+};
+
+export const GoogleLogin = async (req, res, next) => {
+  try {
+    const { email, name, avatar } = req.body;
+
+    let user;
+    user = await User.findOne({ email });
+
+    if (!user) {
+      const password = Math.random().toString()
+      const hashedPassword = bcryptjs.hashSync(password);
+
+      const newUser = new User({
+        name,
+        email,
+        password: hashedPassword,
+        avatar,
+      });
+
+     user = await newUser.save()
+    }
+
+    const token = jwt.sign(
+      {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar || "",
+      },
+      process.env.JWT_SECRECT_KEY
+    );
+
+    res.cookie("access_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      path: "/",
+    });
+    const newUser = user.toObject({ getters: true });
+    delete newUser.password;
     res.status(200).json({
       success: true,
       user: newUser,
