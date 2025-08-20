@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import AuthRoute from './routes/Auth.route.js'
+import UserRoute from './routes/User.route.js'
 dotenv.config()
 
 const Port = process.env.PORT
@@ -18,6 +19,7 @@ app.use(cors({
 //route setup
 
 app.use('/api/auth', AuthRoute);
+app.use('/api/user', UserRoute);
 
 mongoose.connect(process.env.MONGO_DB_KEY,{DbName:'ha-inventory'}).then(()=>{
     console.log('DataBase connected')

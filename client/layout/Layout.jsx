@@ -11,7 +11,7 @@ const Layout = () => {
         <Navbar />
         <AppSidebar />
         <main className="w-auto">
-          <div className=" h-auto min-h-[calc(100dvh-55px)] pb-32 pt-5 ">
+          <div className=" h-auto min-h-[calc(100dvh-55px)] pb-20 pt-20 px-10 ">
             <Outlet />
           </div>
           <Footer />
