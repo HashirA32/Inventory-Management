@@ -19,9 +19,10 @@ import usericon from "@/assets/images/user.png";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { showToast } from "./Helpers/ShowToast";
-import { getEnv } from "./Helpers/getEnv";
+
 import { removeUser } from "../redux/user/user.slice";
 import { SiContactlesspayment } from "react-icons/si";
+import { getEnv } from "./Helpers/getenv";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ const Navbar = () => {
       }
       console.log("Redux user state:", user);
       showToast("success", data.message);
+      console.log(user);
       dispatch(removeUser());
       Navigate(RouteIndex);
     } catch (error) {
@@ -63,7 +65,7 @@ const Navbar = () => {
           <SidebarTrigger className="sm:hidden" />
           <ModeToggle />
 
-          {!user.isloggedin ? (
+          {!user.isLoggedIn ? (
             <Button asChild>
               <Link to={RouteSignIn}>
                 <LuLogIn />

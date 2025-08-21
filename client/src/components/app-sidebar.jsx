@@ -12,31 +12,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "./ui/sidebar";
+import { RouteCategoryDetails, RouteIndex } from "./Helpers/RouteNames";
+import { Link } from "react-router-dom";
 
 const AppSidebar = () => {
-  const items = [
-    {
-      title: "Home",
-      url: "#",
-    },
-    {
-      title: "Inbox",
-      url: "#",
-    },
-    {
-      title: "Calendar",
-      url: "#",
-    },
-    {
-      title: "Search",
-      url: "#",
-    },
-    {
-      title: "Settings",
-      url: "#",
-    },
-  ];
-
   return (
     <Sidebar>
       <SidebarContent>
@@ -44,17 +23,47 @@ const AppSidebar = () => {
           <SidebarGroupLabel className="h-[5rem]"></SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <span className="font-semibold text-[1rem]">
-                        {item.title}
-                      </span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to={RouteIndex}>
+                    <span className="font-semibold text-[1rem]">Home</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/">
+                    <span className="font-semibold text-[1rem]">Products</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to={RouteCategoryDetails}>
+                    <span className="font-semibold text-[1rem]">
+                      Categories
+                    </span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <span className="font-semibold text-[1rem]">Users</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <span className="font-semibold text-[1rem]">Settings</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -62,4 +71,5 @@ const AppSidebar = () => {
     </Sidebar>
   );
 };
+
 export default AppSidebar;

@@ -5,6 +5,7 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import AuthRoute from './routes/Auth.route.js'
 import UserRoute from './routes/User.route.js'
+import CategoryRoute from './routes/Category.route.js'
 dotenv.config()
 
 const Port = process.env.PORT
@@ -20,6 +21,7 @@ app.use(cors({
 
 app.use('/api/auth', AuthRoute);
 app.use('/api/user', UserRoute);
+app.use('/api/category', CategoryRoute);
 
 mongoose.connect(process.env.MONGO_DB_KEY,{DbName:'ha-inventory'}).then(()=>{
     console.log('DataBase connected')
