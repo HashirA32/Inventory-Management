@@ -80,7 +80,7 @@ const CategoryDetails = () => {
                     <TableCell className=" flex gap-2 ">
                       <Button
                         variant="outline"
-                        className="hover:text-[#8b5cf6]"
+                        className="hover:text-[#ffffff] hover:bg-[#8b5cf6]"
                       >
                         <Link to={RouteEditCategory(category._id)}>
                           <FaEdit />

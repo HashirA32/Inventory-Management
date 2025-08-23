@@ -12,7 +12,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "./ui/sidebar";
-import { RouteCategoryDetails, RouteIndex } from "./Helpers/RouteNames";
+import {
+  RouteCategoryDetails,
+  RouteIndex,
+  RouteProduct,
+} from "./Helpers/RouteNames";
 import { Link } from "react-router-dom";
 
 const AppSidebar = () => {
@@ -33,7 +37,7 @@ const AppSidebar = () => {
 
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="/">
+                  <Link to={RouteProduct}>
                     <span className="font-semibold text-[1rem]">Products</span>
                   </Link>
                 </SidebarMenuButton>

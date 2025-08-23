@@ -11,3 +11,12 @@ export const RouteEditCategory = (category_id) => {
     return "/categories/add/:category_id";
   }
 };
+export const RouteProduct = "/product";
+export const RouteAddProduct = "/product/add";
+export const RouteEditProduct = (product_id) => {
+  if (product_id) {
+    return `/product/add/${product_id}`;
+  } else {
+    return "/product/add/:product_id";
+  }
+};

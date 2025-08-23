@@ -50,7 +50,7 @@ export const Login = async (req, res, next) => {
         email: user.email,
         avatar: user.avatar || "",
       },
-      process.env.JWT_SECRECT_KEY
+      process.env.JWT_SECRET
     );
 
     res.cookie("access_token", token, {
@@ -99,7 +99,7 @@ export const GoogleLogin = async (req, res, next) => {
         email: user.email,
         avatar: user.avatar || "",
       },
-      process.env.JWT_SECRECT_KEY
+      process.env.JWT_SECRET
     );
 
     res.cookie("access_token", token, {

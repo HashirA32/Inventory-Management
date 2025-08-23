@@ -14,12 +14,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useEffect } from "react";
 import slugify from "slugify";
 import { showToast } from "@/components/Helpers/showToast";
 import { getEnv } from "@/components/Helpers/getenv";
 import { useSelector } from "react-redux";
+import { MdKeyboardBackspace } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { RouteCategoryDetails } from "../components/Helpers/RouteNames";
 
 const AddCategory = () => {
   const user = useSelector((state) => state.user);
@@ -68,6 +71,18 @@ const AddCategory = () => {
   return (
     <div className="">
       <Card className="p-5 max-w-screen-md mx-auto">
+        <CardHeader>
+          <div className="flex items-center justify-start gap-5">
+            <div>
+              <Button>
+                <Link to={RouteCategoryDetails}>
+                  <MdKeyboardBackspace />
+                </Link>
+              </Button>
+            </div>
+            <div>Add a new Category</div>
+          </div>
+        </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
