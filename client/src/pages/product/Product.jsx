@@ -57,9 +57,9 @@ const Product = () => {
       <Card>
         <CardHeader>
           <div>
-            <Button>
-              <Link to={RouteAddProduct}>Add Product</Link>
-            </Button>
+            <Link to={RouteAddProduct}>
+              <Button className="cursor-pointer">Add Product</Button>
+            </Link>
           </div>
         </CardHeader>
         <CardContent>
@@ -77,17 +77,19 @@ const Product = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {productData && productData.product.length > 0 ? (
+              {productData && productData.product?.length > 0 ? (
                 productData.product.map((product) => (
                   <TableRow key={product?._id}>
-                    <TableCell>{product?.name}</TableCell>
-                    <TableCell>{product?.category.name}</TableCell>
-                    <TableCell>{product?.stock}</TableCell>
-                    <TableCell>{product?.price}</TableCell>
+                    <TableCell>{product?.name ?? "N/A"}</TableCell>
+                    <TableCell>{product?.category?.name ?? "N/A"}</TableCell>
+                    <TableCell>{product?.stock ?? 0}</TableCell>
+                    <TableCell>{product?.price ?? "0.00"}</TableCell>
                     <TableCell>
-                      {moment(product.createdAt).format("DD-MM -YYYY")}
+                      {product?.createdAt
+                        ? moment(product.createdAt).format("DD-MM-YYYY")
+                        : "N/A"}
                     </TableCell>
-                    <TableCell className=" flex gap-2 ">
+                    <TableCell className="flex gap-2">
                       <Button
                         variant="outline"
                         className="hover:bg-[#8b5cf6] hover:text-white"
@@ -97,9 +99,7 @@ const Product = () => {
                         </Link>
                       </Button>
                       <Button
-                        onClick={() => {
-                          hanldeDelete(product._id);
-                        }}
+                        onClick={() => hanldeDelete(product._id)}
                         variant="outline"
                         className="hover:text-white hover:bg-[#810000]"
                       >
@@ -110,7 +110,7 @@ const Product = () => {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan="3">
+                  <TableCell colSpan="6">
                     <div>Data Not Found</div>
                   </TableCell>
                 </TableRow>

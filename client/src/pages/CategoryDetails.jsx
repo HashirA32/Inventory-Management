@@ -56,9 +56,9 @@ const CategoryDetails = () => {
       <Card>
         <CardHeader>
           <div>
-            <Button>
-              <Link to={RouteAddCategory}>Add Category</Link>
-            </Button>
+            <Link to={RouteAddCategory}>
+              <Button className="cursor-pointer">Add Category</Button>
+            </Link>
           </div>
         </CardHeader>
         <CardContent>
@@ -80,7 +80,7 @@ const CategoryDetails = () => {
                     <TableCell className=" flex gap-2 ">
                       <Button
                         variant="outline"
-                        className="hover:text-[#ffffff] hover:bg-[#8b5cf6]"
+                        className="hover:text-[#ffffff] hover:bg-[#8b5cf6] cursor-pointer"
                       >
                         <Link to={RouteEditCategory(category._id)}>
                           <FaEdit />
@@ -91,7 +91,7 @@ const CategoryDetails = () => {
                           hanldeDelete(category._id);
                         }}
                         variant="outline"
-                        className="hover:text-white hover:bg-[#810000]"
+                        className="hover:text-white hover:bg-[#810000] cursor-pointer"
                       >
                         <MdDelete />
                       </Button>

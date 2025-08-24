@@ -130,7 +130,7 @@ const AddProduct = () => {
         <CardHeader>
           <div className="flex items-center justify-start gap-5">
             <div>
-              <Button>
+              <Button className="cursor-pointer">
                 <Link to={RouteProduct}>
                   <MdKeyboardBackspace />
                 </Link>
@@ -264,7 +264,7 @@ const AddProduct = () => {
                   )}
                 />
               </div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full cursor-pointer">
                 Save
               </Button>
             </form>

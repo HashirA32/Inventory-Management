@@ -74,11 +74,11 @@ const AddCategory = () => {
         <CardHeader>
           <div className="flex items-center justify-start gap-5">
             <div>
-              <Button>
-                <Link to={RouteCategoryDetails}>
+              <Link to={RouteCategoryDetails}>
+                <Button className="cursor-pointer">
                   <MdKeyboardBackspace />
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </div>
             <div>Add a new Category</div>
           </div>
@@ -117,7 +117,7 @@ const AddCategory = () => {
                 />
               </div>
 
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full cursor-pointer">
                 Save
               </Button>
             </form>

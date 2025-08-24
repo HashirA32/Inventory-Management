@@ -13,10 +13,10 @@ export const RouteEditCategory = (category_id) => {
 };
 export const RouteProduct = "/product";
 export const RouteAddProduct = "/product/add";
-export const RouteEditProduct = (product_id) => {
-  if (product_id) {
-    return `/product/add/${product_id}`;
+export const RouteEditProduct = (productid) => {
+  if (productid) {
+    return `/product/add/${productid}`;
   } else {
-    return "/product/add/:product_id";
+    return "/product/add/:productid";
   }
 };

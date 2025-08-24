@@ -1,9 +1,7 @@
 
 import express from 'express'
 import { addCategory, deleteCategory, getAllCategory, showCategory, updateCategory } from '../controllers/Category.controller.js'
-// import { onlyadminauthenticate } from '../middleware/onlyAdminAuthenticate.js'
-// import { authenticate } from '../middleware/authenticate.js'
-
+// s
 
 const CategoryRoute = express.Router()
 CategoryRoute.post('/add', addCategory)

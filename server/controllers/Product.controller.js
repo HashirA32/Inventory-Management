@@ -58,46 +58,64 @@ export const editProduct = async (req, res, next)=> {
         next(handleError(500,error.message))
     }
 }
-export const updateproduct = async (req, res, next)=> {
-    try {
-        const {productid} = req.params
-        const data = JSON.parse(req.body.data)
-        const product = await Product.findById(productid)
-        product.category = data.category
-        product.title = data.title
-        product.slug = data.slug
-        product.productContent = encode(data.productContent)
 
+export const updateproduct = async (req, res, next) => {
+  try {
+    const { productid } = req.params;
 
+    // Parse form data
+    const data = JSON.parse(req.body.data || "{}");
 
-        let featuredImage = product.featureImage
-         if(req.file){
-             
-             const uploadResult = await cloudinary.uploader
-             .upload(
-              req.file.path,
-              {
-                folder:'inventory-product',
-                resource_type: 'auto'
-              }
-             ) .catch((error) => {
-                next(handleError(500,error.message))
-            });
-            featuredImage = uploadResult.secure_url
-            }
-            product.featureImage = featuredImage
-
-            await product.save()
-        res.status(200).json({
-            success: true,
-            message: "Product Updated successfully",
-         
-           
-          });
-    } catch (error) {
-        next(handleError(500,error.message))
+    // Fetch product
+    const product = await Product.findById(productid);
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
     }
-}
+
+    // Update fields
+    product.name = data.name ?? product.name;
+    product.category = data.category ?? product.category;
+    product.stock = data.stock ?? product.stock;
+    product.price = data.price ?? product.price;
+    product.productContent = encode(data.productContent ?? "");
+
+    // Update category (if you're storing just categoryId)
+    if (data.categoryId) {
+      product.category = data.categoryId;
+    }
+
+    // OR if you’re storing category as embedded object:
+    if (data.category?.name) {
+      product.category = {
+        ...product.category,
+        name: data.category.name,
+      };
+    }
+
+    // Handle image upload
+    if (req.file) {
+      const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+        folder: "inventory-product",
+        resource_type: "auto",
+      });
+      product.featureImage = uploadResult.secure_url;
+    }
+
+    // Save
+    await product.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Product updated successfully",
+      product,
+    });
+  } catch (error) {
+    return next(handleError(500, error.message));
+  }
+};
 
 export const deleteProduct = async (req, res, next)=> {
     try {
