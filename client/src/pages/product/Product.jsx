@@ -38,7 +38,7 @@ const Product = () => {
     },
     [refreshData]
   );
-  console.log(productData);
+
   const hanldeDelete = (id) => {
     const response = deleteData(
       `${getEnv("VITE_API_BASE_URL")}/product/delete/${id}`
