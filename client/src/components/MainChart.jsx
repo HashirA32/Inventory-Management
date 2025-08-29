@@ -41,7 +41,7 @@ const MainChart = () => {
 
   const maxStock = Math.max(...chartData.map((d) => d.stock), 0);
   const maxPrice = Math.max(...chartData.map((d) => d.price), 0);
-  if (loading) return <Loading />;
+
   return (
     <ChartContainer config={chartConfig} className="min-h-[200px] w-full h-65">
       <AreaChart data={chartData}>

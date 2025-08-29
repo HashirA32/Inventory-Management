@@ -9,7 +9,7 @@ ProductRoute.post("/add", authenticate, upload.single('file'), addProduct);
 ProductRoute.get("/edit/:productid", authenticate, editProduct);
 ProductRoute.put("/update/:productid", authenticate, upload.single('file'), updateproduct);
 ProductRoute.delete("/delete/:productid", authenticate, deleteProduct);
-ProductRoute.get("/get-all", authenticate, showAllProduct);
+ProductRoute.get("/get-all", showAllProduct);
 ProductRoute.get("/get-all-product-home",  showAllProductHome);
 
 

@@ -11,6 +11,12 @@ const productSchema = new mongoose.Schema({
         required: true,
         trim: 'true'
     },
+    slug: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true
+    },
     category: {
         type:  mongoose.Schema.Types.ObjectId,
         required: true,

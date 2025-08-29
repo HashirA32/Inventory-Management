@@ -43,6 +43,7 @@ const EditProduct = () => {
 
   const formSchema = z.object({
     name: z.string().min(3, "Name must be at least 3 character long."),
+    slug: z.string().min(3, "Slug must be at least 3 character long."),
     category: z.string().min(3, "Category must be at least 3 character long."),
     stock: z.preprocess(
       (val) => Number(val),
@@ -70,12 +71,21 @@ const EditProduct = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      slug: "",
       category: "",
       stock: "",
       price: "",
       content: "",
     },
   });
+
+  const productname = form.watch("name");
+  useEffect(() => {
+    if (productname) {
+      const slug = slugify(productname, { lower: true });
+      form.setValue("slug", slug);
+    }
+  }, [productname]);
 
   const { data: CategoryData } = useFetch(
     `${getEnv("VITE_API_BASE_URL")}/category/all-categories`,
@@ -168,6 +178,21 @@ const EditProduct = () => {
                       <FormLabel>Name</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter product name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="mb-3">
+                <FormField
+                  control={form.control}
+                  name="slug"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Slug</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter slug" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

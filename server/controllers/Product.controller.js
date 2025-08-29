@@ -26,6 +26,7 @@ export const addProduct = async (req, res, next)=> {
         const product = new Product({
             auther: data.auther,
             name: data.name,
+            slug: data.slug,
             category: data.category,
             stock: data.stock,
             price: data.price,
@@ -63,10 +64,9 @@ export const updateproduct = async (req, res, next) => {
   try {
     const { productid } = req.params;
 
-    // Parse form data
+ 
     const data = JSON.parse(req.body.data || "{}");
 
-    // Fetch product
     const product = await Product.findById(productid);
     if (!product) {
       return res.status(404).json({
@@ -75,19 +75,19 @@ export const updateproduct = async (req, res, next) => {
       });
     }
 
-    // Update fields
+    
     product.name = data.name ?? product.name;
     product.category = data.category ?? product.category;
     product.stock = data.stock ?? product.stock;
     product.price = data.price ?? product.price;
+    product.slug= data.slug;
     product.productContent = encode(data.productContent ?? "");
 
-    // Update category (if you're storing just categoryId)
     if (data.categoryId) {
       product.category = data.categoryId;
     }
 
-    // OR if you’re storing category as embedded object:
+  
     if (data.category?.name) {
       product.category = {
         ...product.category,
@@ -95,7 +95,6 @@ export const updateproduct = async (req, res, next) => {
       };
     }
 
-    // Handle image upload
     if (req.file) {
       const uploadResult = await cloudinary.uploader.upload(req.file.path, {
         folder: "inventory-product",
@@ -104,7 +103,7 @@ export const updateproduct = async (req, res, next) => {
       product.featureImage = uploadResult.secure_url;
     }
 
-    // Save
+    
     await product.save();
 
     return res.status(200).json({
@@ -133,17 +132,9 @@ export const deleteProduct = async (req, res, next)=> {
 }
 export const showAllProduct = async (req, res, next)=> {
     try {
-        const user = req.user
-        let product
-        if(user.role === 'admin') {
-         
-        product = await Product.find().populate('auther', 'name avatar role').populate('category', 'name slug').sort({createdAt: -1}).lean().exec()
+               const user = req.user
+       const  product = await Product.find().populate('auther', 'name avatar role').populate('category', 'name slug').sort({createdAt: -1}).lean().exec()
            
-        } else {
-                    product = await Product.find({auther: user._id}).populate('auther', 'name avatar role').populate('category', 'name slug').sort({createdAt: -1}).lean().exec()
-
-        }
-        
         res.status(200).json({
             product
         })

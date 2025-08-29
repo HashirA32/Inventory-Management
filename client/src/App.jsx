@@ -5,11 +5,13 @@ import Home from "./pages/Home";
 import {
   RouteAddCategory,
   RouteAddProduct,
+  RouteBuyProduct,
   RouteCategoryDetails,
   RouteEditCategory,
   RouteEditProduct,
   RouteIndex,
   RouteProduct,
+  RouteProductDetails,
   RouteProfile,
   RouteSignIn,
   RouteSignUp,
@@ -24,6 +26,8 @@ import AddCategory from "./pages/AddCategory";
 import Product from "./pages/product/Product";
 import AddProduct from "./pages/product/AddProduct";
 import EditProduct from "./pages/product/EditProduct";
+import ProductDetails from "./pages/product/ProductDetails";
+import BuyProduct from "./pages/product/BuyProduct";
 
 const App = () => {
   return (
@@ -46,6 +50,11 @@ const App = () => {
               <Route path={RouteProduct} element={<Product />} />
               <Route path={RouteAddProduct} element={<AddProduct />} />
               <Route path={RouteEditProduct()} element={<EditProduct />} />
+              <Route
+                path={RouteProductDetails()}
+                element={<ProductDetails />}
+              />
+              <Route path={RouteBuyProduct()} element={<BuyProduct />} />
             </Route>
 
             <Route path={RouteSignUp} element={<SignUp />} />

@@ -2,13 +2,13 @@ import { FcGoogle } from "react-icons/fc";
 import { Button } from "./ui/button";
 import { auth, provider } from "./Helpers/Firebase";
 import { signInWithPopup } from "firebase/auth";
-import { email } from "zod";
-import { getEnv } from "./Helpers/getEnv";
 import { showToast } from "./Helpers/ShowToast";
 import { RouteIndex } from "./Helpers/RouteNames";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/user/user.slice";
+import { getEnv } from "./Helpers/getEnv";
+
 const GoogleLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

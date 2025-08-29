@@ -82,7 +82,7 @@ const Product = () => {
                   <TableRow key={product?._id}>
                     <TableCell>{product?.name ?? "N/A"}</TableCell>
                     <TableCell>{product?.category?.name ?? "N/A"}</TableCell>
-                    <TableCell>{product?.stock ?? 0}</TableCell>
+                    <TableCell>{product?.stock ?? 0} </TableCell>
                     <TableCell>{product?.price ?? "0.00"}</TableCell>
                     <TableCell>
                       {product?.createdAt

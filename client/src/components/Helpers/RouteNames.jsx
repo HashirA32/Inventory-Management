@@ -20,3 +20,22 @@ export const RouteEditProduct = (productid) => {
     return "/product/add/:productid";
   }
 };
+
+export const RouteProductDetails = (category, product) => {
+  if (!category || !product) {
+    return "/product/:category/:product";
+  } else {
+    return `/product/${category}/${product}`;
+  }
+};
+export const RouteProductByCategory = (category) => {
+  if (!category) {
+    return "/product/:category";
+  } else {
+    return `/product/${category}`;
+  }
+};
+export const RouteBuyProduct = (slug) => {
+  if (slug) return `/product/buy/${slug}`;
+  return "/product/buy/:slug";
+};
