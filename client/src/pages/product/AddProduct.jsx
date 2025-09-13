@@ -134,11 +134,11 @@ const AddProduct = () => {
         <CardHeader>
           <div className="flex items-center justify-start gap-5">
             <div>
-              <Button className="cursor-pointer">
-                <Link to={RouteProduct}>
+              <Link to={RouteProduct}>
+                <Button className="cursor-pointer">
                   <MdKeyboardBackspace />
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </div>
             <div>Add a new Product</div>
           </div>

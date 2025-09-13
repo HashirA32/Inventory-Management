@@ -35,7 +35,7 @@ export function SideChart() {
     method: "get",
     credentials: "include",
   });
-  console.log(weeklyData);
+
   if (error) {
     showToast(error, "Failed to fetch weekly top products");
   }

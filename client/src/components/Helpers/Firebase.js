@@ -3,10 +3,7 @@ import { initializeApp } from "firebase/app";
 
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getEnv } from "./getEnv";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: getEnv("VITE_FIRE_BASE_API"),
   authDomain: "inventory-management-c9504.firebaseapp.com",

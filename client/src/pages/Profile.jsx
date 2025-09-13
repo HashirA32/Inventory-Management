@@ -17,7 +17,6 @@ import { getEnv } from "../components/Helpers/getenv";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch } from "react-redux";
-
 import { Textarea } from "@/components/ui/textarea";
 import { useFetch } from "@/hooks/UseFetch";
 import { useSelector } from "react-redux";
@@ -73,7 +72,7 @@ const Profile = () => {
       });
     }
   }, [userData]);
-  console.log(userData);
+
   async function onSubmit(values) {
     try {
       const formData = new FormData();

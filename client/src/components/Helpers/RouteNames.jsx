@@ -13,6 +13,7 @@ export const RouteEditCategory = (category_id) => {
 };
 export const RouteProduct = "/product";
 export const RouteAddProduct = "/product/add";
+export const RouteAddProductByFile = "/product/upload-excel";
 export const RouteEditProduct = (productid) => {
   if (productid) {
     return `/product/add/${productid}`;

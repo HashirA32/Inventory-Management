@@ -70,12 +70,12 @@ const SignUp = () => {
       <Card className="w-[350px] p-5 mb-2 ">
         <div className="flex flex-col text-2xl font-bold text-center mb-2">
           Join the Future
-          <span className="text-[#8B5CF6]">Start Your Story Here</span>
+          <span className="text-[#bd7eff]">Start Your Story Here</span>
         </div>
         <div className="">
           <GoogleLogin />
           <div className="flex items-center justify-center mt-8 border">
-            <span className="absolute bg-[#8B5CF6] p-1 rounded-sm">OR</span>
+            <span className="absolute bg-[#bd7eff] p-1 rounded-sm">OR</span>
           </div>
         </div>
         <Form {...form}>
@@ -157,7 +157,7 @@ const SignUp = () => {
               </Button>
               <div className="flex items-center justify-center gap-2">
                 <p>Already have a accoount?</p>
-                <Link to={RouteSignIn} className="text-[#8B5CF6]">
+                <Link to={RouteSignIn} className="text-[#bd7eff]">
                   Sign In
                 </Link>
               </div>

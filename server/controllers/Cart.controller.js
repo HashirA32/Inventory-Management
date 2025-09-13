@@ -2,33 +2,28 @@
 import Cart from "../models/cart.model.js";
 import { handleError } from "../helpers/handleErr.js";
 import Product from "../models/product.model.js";
-
+import Sale from "../models/sale.model.js";
 // Add item to cart
-
-
-
 export const addToCart = async (req, res, next) => {
   try {
     const { userId, productId, name, price, image, quantity } = req.body;
 
-    // 1. Find the product
+  
     const product = await Product.findById(productId);
     if (!product) {
       return next(handleError(404, "Product not found"));
     }
 
-    // 2. Check if requested quantity is available
     if (quantity > product.stock) {
       return res
         .status(400)
         .json({ success: false, message: `Only ${product.stock} items available` });
     }
 
-    // 3. Deduct the stock
+    
     product.stock -= quantity;
     await product.save();
 
-    // 4. Create a new cart record (like an order entry)
     const newCart = new Cart({
       userId,
       items: [
@@ -105,8 +100,6 @@ export const removeItem = async (req, res, next) => {
   }
 };
 
-// controllers/stats.controller.js
-import Sale from "../models/sale.model.js";
 
 export const getTopProducts = async (req, res, next) => {
   try {
@@ -177,7 +170,6 @@ export const getTopProductsWeekly = async (req, res, next) => {
       },
       { $unwind: "$product" },
 
-      // Project required fields
       {
         $project: {
           _id: 0,

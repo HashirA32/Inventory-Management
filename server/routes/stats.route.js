@@ -1,4 +1,4 @@
-// routes/stats.route.js
+
 import express from "express";
 import { getTopProductsWeekly,  } from "../controllers/Cart.controller.js";
 

@@ -17,7 +17,7 @@ const ProductCard = ({ props }) => {
           <div className="w-full h-40 overflow-hidden rounded-2xl border relative">
             <div className="flex justify-around items-center gap-2 pb-1.5 absolute right-3 top-2">
               {props.stock > 0 ? (
-                <Badge variant="outline" className="bg-[#8b5cf6] border-none">
+                <Badge variant="outline" className="bg-[#bd7eff] border-none">
                   Availble
                 </Badge>
               ) : (
@@ -42,7 +42,9 @@ const ProductCard = ({ props }) => {
           <h2 className="font-4xl font-bold line-clamp-2">{props.name}</h2>
           <div className="flex justify-start items-center gap-1 text-[0.9rem]">
             <BsCalendar3 />:
-            <span>{moment(props.createdAt).format("DD-MM-YYYY")}</span>
+            <span className="w-[75px]">
+              {moment(props.createdAt).format("DD-MM-YYYY")}
+            </span>
           </div>
         </div>
 

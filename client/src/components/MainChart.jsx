@@ -2,7 +2,6 @@
 import { useFetch } from "@/hooks/UseFetch";
 import { getEnv } from "@/components/Helpers/getenv";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import Loading from "@/components/Loading";
 import {
   ChartContainer,
   ChartLegend,

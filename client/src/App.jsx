@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import {
   RouteAddCategory,
   RouteAddProduct,
+  RouteAddProductByFile,
   RouteBuyProduct,
   RouteCategoryDetails,
   RouteEditCategory,
@@ -28,6 +29,7 @@ import AddProduct from "./pages/product/AddProduct";
 import EditProduct from "./pages/product/EditProduct";
 import ProductDetails from "./pages/product/ProductDetails";
 import BuyProduct from "./pages/product/BuyProduct";
+import AddProductByFile from "./pages/product/AddproductByFile";
 
 const App = () => {
   return (
@@ -49,6 +51,10 @@ const App = () => {
               {/* Product Routes */}
               <Route path={RouteProduct} element={<Product />} />
               <Route path={RouteAddProduct} element={<AddProduct />} />
+              <Route
+                path={RouteAddProductByFile}
+                element={<AddProductByFile />}
+              />
               <Route path={RouteEditProduct()} element={<EditProduct />} />
               <Route
                 path={RouteProductDetails()}

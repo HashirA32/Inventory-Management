@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/table";
 import {
   RouteAddProduct,
+  RouteAddProductByFile,
   RouteEditProduct,
 } from "../../components/Helpers/RouteNames";
 import { useFetch } from "@/hooks/UseFetch";
@@ -56,10 +57,19 @@ const Product = () => {
     <div>
       <Card>
         <CardHeader>
-          <div>
-            <Link to={RouteAddProduct}>
-              <Button className="cursor-pointer">Add Product</Button>
-            </Link>
+          <div className="flex items-center justify-between">
+            <div>
+              <Link to={RouteAddProduct}>
+                <Button className="cursor-pointer">Add Product Manualy</Button>
+              </Link>
+            </div>
+            <div>
+              <Link to={RouteAddProductByFile}>
+                <Button className="cursor-pointer">
+                  Add Product through file
+                </Button>
+              </Link>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
@@ -92,7 +102,7 @@ const Product = () => {
                     <TableCell className="flex gap-2">
                       <Button
                         variant="outline"
-                        className="hover:bg-[#8b5cf6] hover:text-white"
+                        className="hover:bg-[#8b5cf6] hover:text-white cursor-pointer"
                       >
                         <Link to={RouteEditProduct(product._id)}>
                           <FaEdit />
@@ -101,7 +111,7 @@ const Product = () => {
                       <Button
                         onClick={() => hanldeDelete(product._id)}
                         variant="outline"
-                        className="hover:text-white hover:bg-[#810000]"
+                        className="hover:text-white hover:bg-[#810000] cursor-pointer"
                       >
                         <MdDelete />
                       </Button>

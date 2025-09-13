@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFetch } from "@/hooks/UseFetch";
 import { getEnv } from "@/components/Helpers/getenv";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,20 +7,25 @@ import Loading from "@/components/Loading";
 import { Button } from "../../components/ui/button";
 import { useSelector } from "react-redux";
 import { showToast } from "../../components/Helpers/ShowToast";
+import { RouteIndex } from "../../components/Helpers/RouteNames";
 
 export default function BuyProduct() {
   const { slug } = useParams();
   const user = useSelector((state) => state.user);
   const [quantity, setQuantity] = useState(1);
-
+  const navigate = useNavigate();
   const {
     data: productData,
     loading,
     error,
-  } = useFetch(`${getEnv("VITE_API_BASE_URL")}/product/get-product/${slug}`, {
-    method: "get",
-    credentials: "include",
-  });
+  } = useFetch(
+    `${getEnv("VITE_API_BASE_URL")}/product/get-product/${slug}`,
+    {
+      method: "get",
+      credentials: "include",
+    },
+    [setQuantity]
+  );
 
   const handleAddToCart = async () => {
     try {
@@ -39,6 +44,11 @@ export default function BuyProduct() {
       });
 
       const result = await res.json();
+      if (!user.user._id) {
+        showToast("error", "First LogIn to confirm perchase.");
+        return <p>First LogIn to confirm perchase.</p>;
+      }
+      navigate(RouteIndex);
       if (loading) return <Loading />;
       if (error) {
         showToast("error", "Failed to fetch product details");
@@ -72,7 +82,7 @@ export default function BuyProduct() {
         />
         <div className="flex items-baseline justify-between">
           <h2 className="text-xl font-bold mt-4">
-            Name: {productData?.product.name}
+            {productData?.product.name}
           </h2>
           <h3>Available Stock: {productData?.product.stock}</h3>
         </div>
@@ -82,7 +92,6 @@ export default function BuyProduct() {
             Price: Rs. {productData?.product.price}
           </p>
 
-          {/* Quantity Input */}
           <div className="flex items-center gap-2">
             <label htmlFor="quantity" className="text-sm font-medium">
               Quantity:
@@ -91,7 +100,7 @@ export default function BuyProduct() {
               id="quantity"
               type="number"
               min={1}
-              max={productData?.product.stock || 99}
+              max={productData?.product.stock || 999}
               value={quantity}
               onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
               className="w-20 border rounded px-2 py-1 text-center"
