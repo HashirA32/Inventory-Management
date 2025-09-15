@@ -23,6 +23,7 @@ import { showToast } from "./Helpers/ShowToast";
 import { removeUser } from "../redux/user/user.slice";
 import { SiContactlesspayment } from "react-icons/si";
 import { getEnv } from "./Helpers/getenv";
+import SearchBar from "./SearchBar";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -61,6 +62,9 @@ const Navbar = () => {
             <span>Inventory</span>
           </div>
         </Link>
+        <div className="hidden md:block w-full max-w-md mx-4">
+          <SearchBar />
+        </div>
         <div className="flex items-center gap-3 space-x-2 font-bold text-xl">
           <SidebarTrigger className="sm:hidden" />
           <ModeToggle />

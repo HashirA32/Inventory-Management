@@ -198,13 +198,11 @@ export const showAllProduct = async (req, res, next)=> {
 }
 
 
-export const showAllProductHome = async (req, res, next) => {
+export const showAllProductHome = async (req, res, next)=> {
   try {
-    const page = parseInt(req.query.page) || 1;   
-    const limit = parseInt(req.query.limit) || 15; 
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 15;
     const skip = (page - 1) * limit;
-
-    const totalProducts = await Product.countDocuments();
 
     const products = await Product.find()
       .populate("auther", "name avatar role")
@@ -215,18 +213,19 @@ export const showAllProductHome = async (req, res, next) => {
       .lean()
       .exec();
 
+    const total = await Product.countDocuments();
+
     res.status(200).json({
       success: true,
-      product: products,
-      total: totalProducts,
+      products,
+      total,
       page,
-      totalPages: Math.ceil(totalProducts / limit),
+      pages: Math.ceil(total / limit),
     });
   } catch (error) {
     next(handleError(500, error.message));
   }
 };
-
 
 
 export const getProduct = async (req, res, next)=> {
@@ -279,7 +278,7 @@ export const search = async (req, res, next)=> {
     try {
         const {q} = req.query 
         console.log(q)
-        const product = await Product.find({title: {$regex: q, $options:'i'}}).populate('auther', 'name avatar role').populate('category', 'name slug').sort({createdAt: -1}).lean().exec()
+        const product = await Product.find({name: {$regex: q, $options:'i'}}).populate('auther', 'name avatar role').populate('category', 'name slug').sort({createdAt: -1}).lean().exec()
         res.status(200).json({
             product
         })

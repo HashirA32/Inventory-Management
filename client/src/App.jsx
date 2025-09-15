@@ -13,6 +13,7 @@ import {
   RouteIndex,
   RouteProduct,
   RouteProductDetails,
+  RouteProductSearch,
   RouteProfile,
   RouteSignIn,
   RouteSignUp,
@@ -30,6 +31,7 @@ import EditProduct from "./pages/product/EditProduct";
 import ProductDetails from "./pages/product/ProductDetails";
 import BuyProduct from "./pages/product/BuyProduct";
 import AddProductByFile from "./pages/product/AddproductByFile";
+import SearchResult from "./pages/SearchResult";
 
 const App = () => {
   return (
@@ -47,6 +49,7 @@ const App = () => {
               />
               <Route path={RouteAddCategory} element={<AddCategory />} />
               <Route path={RouteEditCategory()} element={<EditCategory />} />
+              <Route path={RouteProductSearch()} element={<SearchResult />} />
 
               {/* Product Routes */}
               <Route path={RouteProduct} element={<Product />} />

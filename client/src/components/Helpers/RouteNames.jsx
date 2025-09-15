@@ -40,3 +40,11 @@ export const RouteBuyProduct = (slug) => {
   if (slug) return `/product/buy/${slug}`;
   return "/product/buy/:slug";
 };
+
+export const RouteProductSearch = (q) => {
+  if (q) {
+    return `/search?q=${q}`;
+  } else {
+    return "/search";
+  }
+};

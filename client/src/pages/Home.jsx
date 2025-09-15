@@ -24,8 +24,13 @@ const Home = () => {
       const data = await res.json();
 
       if (res.ok) {
-        setProducts((prev) => [...prev, ...data.product]);
-        setTotalPages(data.totalPages);
+        setProducts((prev) => {
+          const merged = [...prev, ...data.products];
+          return merged.filter(
+            (p, index, self) => index === self.findIndex((x) => x._id === p._id)
+          );
+        });
+        setTotalPages(data.pages);
       }
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -48,7 +53,7 @@ const Home = () => {
       },
       { threshold: 0.8 }
     );
-
+    console.log(products.map((p) => p._id));
     if (loaderRef.current) observer.observe(loaderRef.current);
 
     return () => {
