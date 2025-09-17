@@ -15,6 +15,7 @@ export const Register = async (req, res, next) => {
       name,
       email,
       password: hashedPassword,
+         role: user.role, 
     });
     await user.save();
     res.status(200).json({
@@ -49,6 +50,7 @@ export const Login = async (req, res, next) => {
         name: user.name,
         email: user.email,
         avatar: user.avatar || "",
+           role: user.role, 
       },
       process.env.JWT_SECRET
     );
@@ -98,6 +100,7 @@ export const GoogleLogin = async (req, res, next) => {
         name: user.name,
         email: user.email,
         avatar: user.avatar || "",
+           role: user.role, 
       },
       process.env.JWT_SECRET
     );

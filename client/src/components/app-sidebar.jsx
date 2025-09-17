@@ -16,6 +16,8 @@ import {
   RouteCategoryDetails,
   RouteIndex,
   RouteProduct,
+  RouteProductByCategory,
+  RouteUser,
 } from "./Helpers/RouteNames";
 import { Link } from "react-router-dom";
 import { useFetch } from "@/hooks/UseFetch";
@@ -25,8 +27,10 @@ import { IoHome } from "react-icons/io5";
 import { RiAlignItemBottomLine } from "react-icons/ri";
 import { BiUser } from "react-icons/bi";
 import { TbSettings } from "react-icons/tb";
+import { useSelector } from "react-redux";
 
 const AppSidebar = () => {
+  const user = useSelector((state) => state.user);
   const { data: CategoryData } = useFetch(
     `${getEnv("VITE_API_BASE_URL")}/category/all-categories`,
     {
@@ -53,37 +57,43 @@ const AppSidebar = () => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to={RouteProduct}>
-                    <span className="font-semibold text-[1rem] flex gap-1 items-center justify-center">
-                      <RiAlignItemBottomLine />
-                      Products
-                    </span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {user && user.isLoggedIn && user.user.role === "admin" ? (
+                <>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to={RouteProduct}>
+                        <span className="font-semibold text-[1rem] flex gap-1 items-center justify-center">
+                          <RiAlignItemBottomLine />
+                          Products
+                        </span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
 
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to={RouteCategoryDetails}>
-                    <span className="font-semibold text-[1rem] flex gap-1 items-center justify-center">
-                      <BiSolidCategoryAlt /> Categories
-                    </span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to={RouteCategoryDetails}>
+                        <span className="font-semibold text-[1rem] flex gap-1 items-center justify-center">
+                          <BiSolidCategoryAlt /> Categories
+                        </span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
 
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="#">
-                    <span className="font-semibold text-[1rem] flex gap-1 items-center justify-center">
-                      <BiUser className="font-extralight" />
-                      Users
-                    </span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to={RouteUser}>
+                        <span className="font-semibold text-[1rem] flex gap-1 items-center justify-center">
+                          <BiUser className="font-extralight" />
+                          Users
+                        </span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </>
+              ) : (
+                <></>
+              )}
 
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
@@ -107,7 +117,7 @@ const AppSidebar = () => {
                 return (
                   <SidebarMenuItem key={category._id}>
                     <SidebarMenuButton asChild>
-                      <Link href="#">
+                      <Link to={RouteProductByCategory(category.slug)}>
                         <span className="flex gap-1 items-center justify-center">
                           <BiSolidCategoryAlt />
 

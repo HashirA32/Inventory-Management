@@ -2,6 +2,7 @@ export const RouteIndex = "/";
 export const RouteSignUp = "/sign-up";
 export const RouteSignIn = "/sign-in";
 export const RouteProfile = "/profile";
+export const RouteUser = "/user";
 export const RouteCategoryDetails = "/categories";
 export const RouteAddCategory = "/category/add";
 export const RouteEditCategory = (category_id) => {

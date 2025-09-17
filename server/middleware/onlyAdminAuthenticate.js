@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export const onlyadminauthenticate = async (req, res, next) => {
+export const onlyAdminAuthenticate = async (req, res, next) => {
   try {
     const token = req.cookies.access_token;
 

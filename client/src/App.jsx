@@ -12,11 +12,13 @@ import {
   RouteEditProduct,
   RouteIndex,
   RouteProduct,
+  RouteProductByCategory,
   RouteProductDetails,
   RouteProductSearch,
   RouteProfile,
   RouteSignIn,
   RouteSignUp,
+  RouteUser,
 } from "./components/Helpers/RouteNames";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
@@ -32,6 +34,10 @@ import ProductDetails from "./pages/product/ProductDetails";
 import BuyProduct from "./pages/product/BuyProduct";
 import AddProductByFile from "./pages/product/AddproductByFile";
 import SearchResult from "./pages/SearchResult";
+import AuthRouteProtection from "./components/AuthRouteProtection";
+import OnlyAdminAllow from "./components/OnlyAdminAllow";
+import User from "./pages/User";
+import ProductByCategory from "./pages/product/ProductsByCategory";
 
 const App = () => {
   return (
@@ -41,29 +47,35 @@ const App = () => {
           <Routes>
             <Route path={RouteIndex} element={<Layout />}>
               <Route index element={<Home />} />
-              <Route path={RouteProfile} element={<Profile />} />
-              {/* Category Routes */}
-              <Route
-                path={RouteCategoryDetails}
-                element={<CategoryDetails />}
-              />
-              <Route path={RouteAddCategory} element={<AddCategory />} />
-              <Route path={RouteEditCategory()} element={<EditCategory />} />
-              <Route path={RouteProductSearch()} element={<SearchResult />} />
-
-              {/* Product Routes */}
-              <Route path={RouteProduct} element={<Product />} />
-              <Route path={RouteAddProduct} element={<AddProduct />} />
-              <Route
-                path={RouteAddProductByFile}
-                element={<AddProductByFile />}
-              />
-              <Route path={RouteEditProduct()} element={<EditProduct />} />
               <Route
                 path={RouteProductDetails()}
                 element={<ProductDetails />}
               />
-              <Route path={RouteBuyProduct()} element={<BuyProduct />} />
+              <Route
+                path={RouteProductByCategory()}
+                element={<ProductByCategory />}
+              />
+              <Route element={<AuthRouteProtection />}>
+                <Route path={RouteProfile} element={<Profile />} />
+                <Route path={RouteBuyProduct()} element={<BuyProduct />} />
+              </Route>
+              <Route element={<OnlyAdminAllow />}>
+                <Route path={RouteUser} element={<User />} />
+                <Route path={RouteProduct} element={<Product />} />
+                <Route path={RouteAddProduct} element={<AddProduct />} />
+                <Route
+                  path={RouteAddProductByFile}
+                  element={<AddProductByFile />}
+                />
+                <Route path={RouteEditProduct()} element={<EditProduct />} />
+                <Route
+                  path={RouteCategoryDetails}
+                  element={<CategoryDetails />}
+                />
+                <Route path={RouteAddCategory} element={<AddCategory />} />
+                <Route path={RouteEditCategory()} element={<EditCategory />} />
+                <Route path={RouteProductSearch()} element={<SearchResult />} />
+              </Route>
             </Route>
 
             <Route path={RouteSignUp} element={<SignUp />} />
