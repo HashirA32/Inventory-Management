@@ -49,3 +49,11 @@ export const RouteProductSearch = (q) => {
     return "/search";
   }
 };
+
+export const RouteCartHistory = (userId) => {
+  if (userId) {
+    return `/cart/history/${userId}`;
+  } else {
+    return "/cart/history/:userId";
+  }
+};

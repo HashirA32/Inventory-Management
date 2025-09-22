@@ -186,3 +186,28 @@ export const getTopProductsWeekly = async (req, res, next) => {
     next(handleError(500, error.message));
   }
 };
+
+// Cart History
+
+export const getCartHistory = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const history = await Cart.find({ userId })
+      .populate({
+        path: "items.productId",
+        select: "name featureImage price content stock", 
+      })
+      .sort({ createdAt: -1 });
+
+    if (!history || history.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No history found" });
+    }
+
+    res.status(200).json({ success: true, history });
+  } catch (error) {
+    next(handleError(500, error.message));
+  }
+};

@@ -53,7 +53,7 @@ const Home = () => {
       },
       { threshold: 0.8 }
     );
-    console.log(products.map((p) => p._id));
+
     if (loaderRef.current) observer.observe(loaderRef.current);
 
     return () => {

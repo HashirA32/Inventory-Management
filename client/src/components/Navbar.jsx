@@ -2,7 +2,12 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { SidebarTrigger } from "./ui/sidebar";
 import { ModeToggle } from "./mode-toggle";
-import { RouteIndex, RouteProfile, RouteSignIn } from "./Helpers/RouteNames";
+import {
+  RouteIndex,
+  RouteProfile,
+  RouteSignIn,
+  RouteCartHistory,
+} from "./Helpers/RouteNames";
 import { Button } from "./ui/button";
 import { LuLogIn } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +26,7 @@ import { FiLogOut } from "react-icons/fi";
 import { showToast } from "./Helpers/ShowToast";
 
 import { removeUser } from "../redux/user/user.slice";
-import { SiContactlesspayment } from "react-icons/si";
+import { BsCartCheck } from "react-icons/bs";
 import { getEnv } from "./Helpers/getenv";
 import SearchBar from "./SearchBar";
 
@@ -44,9 +49,9 @@ const Navbar = () => {
         showToast("error", data.message);
         return;
       }
-      console.log("Redux user state:", user);
+
       showToast("success", data.message);
-      console.log(user);
+
       dispatch(removeUser());
       Navigate(RouteIndex);
     } catch (error) {
@@ -97,9 +102,9 @@ const Navbar = () => {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="cursor-pointer">
-                  <Link to="">
-                    <SiContactlesspayment className="text-9xl font-bold " />
-                    Billing
+                  <Link to={RouteCartHistory(user.user._id)}>
+                    <BsCartCheck className="text-9xl font-bold " />
+                    Cart History
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />

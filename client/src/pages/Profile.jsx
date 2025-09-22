@@ -34,7 +34,7 @@ const Profile = () => {
   const [filePreview, setPreview] = useState();
   const [file, setFile] = useState();
   const user = useSelector((state) => state.user);
-  console.log(user);
+
   const {
     data: userData,
     loading,

@@ -7,6 +7,7 @@ import {
   RouteAddProduct,
   RouteAddProductByFile,
   RouteBuyProduct,
+  RouteCartHistory,
   RouteCategoryDetails,
   RouteEditCategory,
   RouteEditProduct,
@@ -38,6 +39,7 @@ import AuthRouteProtection from "./components/AuthRouteProtection";
 import OnlyAdminAllow from "./components/OnlyAdminAllow";
 import User from "./pages/User";
 import ProductByCategory from "./pages/product/ProductsByCategory";
+import CartHistory from "./pages/CartHistory";
 
 const App = () => {
   return (
@@ -58,6 +60,7 @@ const App = () => {
               <Route element={<AuthRouteProtection />}>
                 <Route path={RouteProfile} element={<Profile />} />
                 <Route path={RouteBuyProduct()} element={<BuyProduct />} />
+                <Route path={RouteCartHistory()} element={<CartHistory />} />
               </Route>
               <Route element={<OnlyAdminAllow />}>
                 <Route path={RouteUser} element={<User />} />

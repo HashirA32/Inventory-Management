@@ -13,6 +13,7 @@ import {
   SidebarMenuItem,
 } from "./ui/sidebar";
 import {
+  RouteCartHistory,
   RouteCategoryDetails,
   RouteIndex,
   RouteProduct,
@@ -26,8 +27,9 @@ import { BiSolidCategoryAlt } from "react-icons/bi";
 import { IoHome } from "react-icons/io5";
 import { RiAlignItemBottomLine } from "react-icons/ri";
 import { BiUser } from "react-icons/bi";
-import { TbSettings } from "react-icons/tb";
+
 import { useSelector } from "react-redux";
+import { BsCartCheck } from "react-icons/bs";
 
 const AppSidebar = () => {
   const user = useSelector((state) => state.user);
@@ -97,11 +99,8 @@ const AppSidebar = () => {
 
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="#">
-                    <span className="font-semibold text-[1rem] flex gap-1 items-center justify-center">
-                      <TbSettings />
-                      Settings
-                    </span>
+                  <Link to={RouteCartHistory(user.user._id)}>
+                    <BsCartCheck className="text-9xl font-bold " /> Cart History
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
