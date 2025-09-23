@@ -59,7 +59,21 @@ const AppSidebar = () => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
-              {user && user.isLoggedIn && user.user.role === "admin" ? (
+              {user && user.isLoggedIn ? (
+                <>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to={RouteCartHistory(user.user._id)}>
+                        <BsCartCheck className="text-9xl font-bold " /> Cart
+                        History
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </>
+              ) : (
+                <></>
+              )}
+              {user.user.role === "admin" ? (
                 <>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
@@ -96,18 +110,11 @@ const AppSidebar = () => {
               ) : (
                 <></>
               )}
-
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to={RouteCartHistory(user.user._id)}>
-                    <BsCartCheck className="text-9xl font-bold " /> Cart History
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroupContent>
+          <hr />
           <SidebarGroupLabel>List of category</SidebarGroupLabel>
           <SidebarMenu>
             {CategoryData &&

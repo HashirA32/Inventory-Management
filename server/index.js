@@ -17,7 +17,8 @@ app.use(cookieParser())
 app.use(express.json());
 app.use(cors({
     origin:process.env.FRONT_END_URL,
-    credentials: true
+    credentials: true,
+       exposedHeaders: ["Content-Disposition"],
 }))
 
 //route setup

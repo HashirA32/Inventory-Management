@@ -11,11 +11,11 @@ export const Register = async (req, res, next) => {
       next(handleError(409, "User already register"));
     }
     const hashedPassword = bcryptjs.hashSync(password);
-    const user = new User({
+    const user = await  new User({
       name,
       email,
       password: hashedPassword,
-         role: user.role, 
+      role: "user",
     });
     await user.save();
     res.status(200).json({

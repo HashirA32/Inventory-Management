@@ -2,8 +2,9 @@ import { useParams } from "react-router-dom";
 import { useFetch } from "@/hooks/UseFetch";
 import { getEnv } from "@/components/Helpers/getenv";
 import Loading from "@/components/Loading";
-
+import { Button } from "../components/ui/button";
 import { decodeXML } from "entities";
+
 export default function CartHistory() {
   const { userId } = useParams();
 
@@ -16,6 +17,33 @@ export default function CartHistory() {
     { method: "get", credentials: "include" },
     []
   );
+
+  // ✅ helper to download blob
+  const downloadFile = (blob, fileName) => {
+    const url = window.URL.createObjectURL(new Blob([blob]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", fileName);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  const handleDownload = async () => {
+    try {
+      const url = `${getEnv("VITE_API_BASE_URL")}/cart/history/${userId}/pdf`;
+      const res = await fetch(url, {
+        method: "GET",
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Failed to download PDF");
+
+      const blob = await res.blob();
+      downloadFile(blob, "cart-history.pdf");
+    } catch (err) {
+      console.error("Download failed:", err);
+    }
+  };
 
   if (loading) return <Loading />;
   if (error) return <p>Error: {error.message}</p>;
@@ -30,13 +58,23 @@ export default function CartHistory() {
 
   return (
     <div className="p-6 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div className="lg:col-span-2 space-y-6 ">
+      <div className="lg:col-span-2 space-y-6">
         <h2 className="text-2xl font-bold border-b pb-2">Cart History</h2>
-        <div className=" grid grid-cols-12 font-bold items-center border-b pb-2 gap-4">
-          <div className="col-span-8"> Product</div>
-          <div className="col-span-2 text-center"> Price</div>
-          <div className="col-span-2 text-right"> Total Price</div>
+
+        <Button
+          variant="outline"
+          className="w-full py-2 rounded"
+          onClick={handleDownload}
+        >
+          Download PDF
+        </Button>
+
+        <div className="grid grid-cols-12 font-bold items-center border-b pb-2 gap-4">
+          <div className="col-span-8">Product</div>
+          <div className="col-span-2 text-center">Price</div>
+          <div className="col-span-2 text-right">Total Price</div>
         </div>
+
         {historyData.history.map((cart, idx) => (
           <div key={idx} className="space-y-6">
             {cart.items.map((item, i) => (
@@ -65,12 +103,10 @@ export default function CartHistory() {
                       ...
                     </p>
                   )}
-
                   <p className="text-xs text-gray-600">Qty: {item.quantity}</p>
                 </div>
 
                 <div className="col-span-2 text-center">
-                  <p className="line-through text-sm "></p>
                   <p className="font-semibold">Rs. {item.price}</p>
                 </div>
 
