@@ -158,7 +158,7 @@ export const getTopProductsWeekly = async (req, res, next) => {
 
       { $sort: { totalSold: -1 } },
 
-      { $limit: 4 },
+      { $limit: 3 },
 
   
       {
