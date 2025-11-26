@@ -1,12 +1,14 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useFetch } from "@/hooks/UseFetch";
 import { getEnv } from "@/components/Helpers/getenv";
 import Loading from "@/components/Loading";
 import { Button } from "../components/ui/button";
 import { decodeXML } from "entities";
+import { showToast } from "@/components/Helpers/ShowToast";
 
 export default function CartHistory() {
   const { userId } = useParams();
+  const navigate = useNavigate();
 
   const {
     data: historyData,
@@ -18,13 +20,31 @@ export default function CartHistory() {
     []
   );
 
-  // ✅ helper to download blob
+  const handleClearHistory = async () => {
+    try {
+      const url = `${getEnv("VITE_API_BASE_URL")}/cart/history/${userId}/clear`;
+
+      const res = await fetch(url, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!res.ok) throw new Error("Failed to clear history");
+
+      showToast("success", "Cart history cleared successfully!");
+
+      // Smooth refresh using navigate
+      navigate(0);
+    } catch (err) {
+      showToast("error", err.message || "Unable to clear history");
+    }
+  };
+
   const downloadFile = (blob, fileName) => {
     const url = window.URL.createObjectURL(new Blob([blob]));
     const link = document.createElement("a");
     link.href = url;
     link.setAttribute("download", fileName);
-    document.body.appendChild(link);
     link.click();
     link.remove();
   };
@@ -32,16 +52,20 @@ export default function CartHistory() {
   const handleDownload = async () => {
     try {
       const url = `${getEnv("VITE_API_BASE_URL")}/cart/history/${userId}/pdf`;
+
       const res = await fetch(url, {
         method: "GET",
         credentials: "include",
       });
+
       if (!res.ok) throw new Error("Failed to download PDF");
 
       const blob = await res.blob();
       downloadFile(blob, "cart-history.pdf");
+
+      showToast("success", "PDF downloaded successfully!");
     } catch (err) {
-      console.error("Download failed:", err);
+      showToast("error", err.message || "PDF download failed");
     }
   };
 
@@ -58,23 +82,37 @@ export default function CartHistory() {
 
   return (
     <div className="p-6 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* LEFT SECTION */}
       <div className="lg:col-span-2 space-y-6">
         <h2 className="text-2xl font-bold border-b pb-2">Cart History</h2>
 
-        <Button
-          variant="outline"
-          className="w-full py-2 rounded"
-          onClick={handleDownload}
-        >
-          Download PDF
-        </Button>
+        {/* Buttons */}
+        <div className="flex gap-3 w-full">
+          <Button
+            className="flex-1 py-2"
+            variant="outline"
+            onClick={handleDownload}
+          >
+            Download PDF
+          </Button>
 
+          <Button
+            className="flex-1 py-2"
+            variant="destructive"
+            onClick={handleClearHistory}
+          >
+            Clear History
+          </Button>
+        </div>
+
+        {/* Table Header */}
         <div className="grid grid-cols-12 font-bold items-center border-b pb-2 gap-4">
           <div className="col-span-8">Product</div>
           <div className="col-span-2 text-center">Price</div>
           <div className="col-span-2 text-right">Total Price</div>
         </div>
 
+        {/* Items */}
         {historyData.history.map((cart, idx) => (
           <div key={idx} className="space-y-6">
             {cart.items.map((item, i) => (
@@ -94,6 +132,7 @@ export default function CartHistory() {
                   <h3 className="font-semibold text-2xl">
                     {item.productId?.name || item.name}
                   </h3>
+
                   {item.productId?.content && (
                     <p className="text-sm text-gray-500">
                       {decodeXML(item.productId?.content)
@@ -103,11 +142,12 @@ export default function CartHistory() {
                       ...
                     </p>
                   )}
+
                   <p className="text-xs text-gray-600">Qty: {item.quantity}</p>
                 </div>
 
-                <div className="col-span-2 text-center">
-                  <p className="font-semibold">Rs. {item.price}</p>
+                <div className="col-span-2 text-center font-semibold">
+                  Rs. {item.price}
                 </div>
 
                 <div className="col-span-2 text-right font-semibold">
@@ -119,6 +159,7 @@ export default function CartHistory() {
         ))}
       </div>
 
+      {/* SUMMARY SECTION */}
       <div className="border p-6 rounded space-y-4 h-fit">
         <h3 className="text-xl font-semibold">Summary</h3>
 

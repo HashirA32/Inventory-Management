@@ -137,6 +137,29 @@ export const getTopProducts = async (req, res, next) => {
   }
 };
 
+export const clearCartHistory = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const result = await Cart.deleteMany({ userId });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No history found to clear"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Cart history cleared successfully!"
+    });
+
+  } catch (error) {
+    next(handleError(500, error.message));
+  }
+};
+
 export const getTopProductsWeekly = async (req, res, next) => {
   try {
     const oneWeekAgo = new Date();

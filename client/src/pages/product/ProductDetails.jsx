@@ -2,10 +2,12 @@ import { getEnv } from "@/components/Helpers/getenv";
 import Loading from "@/components/Loading";
 import { Avatar } from "@/components/ui/avatar";
 import { useFetch } from "@/hooks/UseFetch";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { marked } from "marked";
 import { decodeXML } from "entities";
 import moment from "moment";
+import { RouteBuyProduct } from "../../components/Helpers/RouteNames";
+import { Button } from "@/components/ui/Button";
 
 const ProductDetails = () => {
   const { product, category } = useParams();
@@ -39,8 +41,16 @@ const ProductDetails = () => {
                     <p>Product of : {data.product.auther.name}</p>
                   </div>
                   <div className="text-xs flex items-center justify-center w-50">
-                    Created At :{" "}
-                    {moment(data.product.createdAt).format("DD-MM-YYYY")}
+                    <div>
+                      {" "}
+                      Created At :{" "}
+                      {moment(data.product.createdAt).format("DD-MM-YYYY")}
+                    </div>
+                    <div>
+                      <Link to={RouteBuyProduct(data.product.slug)}>
+                        <Button className="cursor-pointer">Add to Cart</Button>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
