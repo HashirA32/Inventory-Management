@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import HomeContent from "../components/HomeContent";
-import { getEnv } from "@/components/Helpers/getenv";
+import { getEnv } from "@/components/Helpers/getenv.js";
 import ProductCard from "../components/ProductCard";
 import { Skeleton } from "@/components/ui/skeleton";
 
