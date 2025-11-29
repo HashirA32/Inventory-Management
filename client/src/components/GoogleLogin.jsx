@@ -7,7 +7,7 @@ import { RouteIndex } from "./Helpers/RouteNames";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/user/user.slice";
-import { getEnv } from "./Helpers/getEnv";
+import { getEnv } from "./Helpers/getenv";
 
 const GoogleLogin = () => {
   const dispatch = useDispatch();
