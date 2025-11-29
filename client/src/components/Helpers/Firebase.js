@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getEnv } from "./getEnv";
+import { getEnv } from "./getenv";
 
 const firebaseConfig = {
   apiKey: getEnv("VITE_FIRE_BASE_API"),
