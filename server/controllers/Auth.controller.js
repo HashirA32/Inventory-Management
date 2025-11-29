@@ -11,10 +11,11 @@ export const Register = async (req, res, next) => {
       next(handleError(409, "User already register"));
     }
     const hashedPassword = bcryptjs.hashSync(password);
-    const user = new User({
+    const user = await  new User({
       name,
       email,
       password: hashedPassword,
+      role: "user",
     });
     await user.save();
     res.status(200).json({
@@ -38,10 +39,10 @@ export const Login = async (req, res, next) => {
       next(handleError(409, "Invalid credentials"));
     }
     const hashedPassword = user.password;
-   const isMatch = await bcryptjs.compare(password, hashedPassword);
-if (!isMatch) {
-  return next(handleError(409, "Invalid credentials"));
-}
+    const isMatch = await bcryptjs.compare(password, hashedPassword);
+    if (!isMatch) {
+      return next(handleError(409, "Invalid credentials"));
+    }
 
     const token = jwt.sign(
       {
@@ -49,8 +50,9 @@ if (!isMatch) {
         name: user.name,
         email: user.email,
         avatar: user.avatar || "",
+           role: user.role, 
       },
-      process.env.JWT_SECRECT_KEY
+      process.env.JWT_SECRET
     );
 
     res.cookie("access_token", token, {
@@ -59,12 +61,82 @@ if (!isMatch) {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
       path: "/",
     });
-    const newUser = user.toObject({getters:true})
-    delete newUser.password
+    const newUser = user.toObject({ getters: true });
+    delete newUser.password;
     res.status(200).json({
       success: true,
       user: newUser,
       message: "Successfully LogeIn",
+    });
+  } catch (error) {
+    next(handleError(500, error.message));
+  }
+};
+
+export const GoogleLogin = async (req, res, next) => {
+  try {
+    const { email, name, avatar } = req.body;
+
+    let user;
+    user = await User.findOne({ email });
+
+    if (!user) {
+      const password = Math.random().toString()
+      const hashedPassword = bcryptjs.hashSync(password);
+
+      const newUser = new User({
+        name,
+        email,
+        password: hashedPassword,
+        avatar,
+      });
+
+     user = await newUser.save()
+    }
+
+    const token = jwt.sign(
+      {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar || "",
+           role: user.role, 
+      },
+      process.env.JWT_SECRET
+    );
+
+    res.cookie("access_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      path: "/",
+    });
+    const newUser = user.toObject({ getters: true });
+    delete newUser.password;
+    res.status(200).json({
+      success: true,
+      user: newUser,
+      message: "Successfully LogeIn",
+    });
+  } catch (error) {
+    next(handleError(500, error.message));
+  }
+};
+
+export const Logout = async (req, res, next) => {
+  try {
+   
+    res.clearCookie("access_token",{
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      path: "/",
+    });
+   
+    res.status(200).json({
+      success: true,
+     
+      message: "Successfully LogOut",
     });
   } catch (error) {
     next(handleError(500, error.message));

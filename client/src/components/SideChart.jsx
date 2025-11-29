@@ -1,7 +1,10 @@
 "use client";
 
 import { TrendingUp } from "lucide-react";
-import { LabelList, Pie, PieChart } from "recharts";
+import { Cell, LabelList, Pie, PieChart } from "recharts";
+import { useFetch } from "@/hooks/UseFetch";
+import { getEnv } from "@/components/Helpers/getenv";
+import { showToast } from "@/components/Helpers/ShowToast";
 
 import {
   Card,
@@ -17,78 +20,81 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-// const description = "A pie chart with a label list";
-
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
-];
-
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "var(--chart-1)",
-  },
-  safari: {
-    label: "Safari",
-    color: "var(--chart-2)",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "var(--chart-3)",
-  },
-  edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
+  totalSold: {
+    label: "Quantity Sold",
   },
 };
 
 export function SideChart() {
+  const {
+    data: weeklyData,
+    loading,
+    error,
+  } = useFetch(`${getEnv("VITE_API_BASE_URL")}/stats/top-products-weekly`, {
+    method: "get",
+    credentials: "include",
+  });
+
+  if (error) {
+    showToast(error, "Failed to fetch weekly top products");
+  }
+
+  const colors = ["#6366f1", "#10b981", "#f59e0b"];
+
+  const chartData =
+    weeklyData?.map((p, idx) => ({
+      name: p.name,
+      totalSold: p.totalSold,
+      fill: colors[idx] || colors[colors.length - 1],
+    })) || [];
+
   return (
-    <Card className="flex flex-row h-40 w-100 md:w-130 p-2">
-      <CardHeader className="items-center justify-center p-0 w-14 md:w-30 text-[12px] md:text-2xl ">
-        <CardTitle>Pie Chart Label List</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+    <Card className="flex flex-row h-40 w-100 md:w-145 p-2">
+      <CardHeader className="items-center justify-center p-0 w-14 md:w-40 text-[12px] md:text-2xl ">
+        <CardTitle>Top 3 Weekly Products</CardTitle>
+        <CardDescription>Based on quantity sold in last 7 days</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1  p-0 w-36">
+
+      <CardContent className="flex-1 p-0 w-36 h-[200px] relative">
         <ChartContainer
           config={chartConfig}
-          className="[&_.recharts-text]:fill-background mx-auto  pb-4 aspect-square max-h-[200px] "
+          className="[&_.recharts-text]:fill-background text-[0.2rem] mx-auto  aspect-square absolute  bottom-7  h-[200px] max-h-[200px]"
         >
           <PieChart>
             <ChartTooltip
-              content={<ChartTooltipContent nameKey="visitors" hideLabel />}
+              content={<ChartTooltipContent nameKey="totalSold" hideLabel />}
             />
-            <Pie data={chartData} dataKey="visitors">
+            <Pie
+              data={chartData}
+              dataKey="totalSold"
+              nameKey="name"
+              className="text-[0.2rem]"
+            >
               <LabelList
-                dataKey="browser"
+                dataKey="name"
                 className="fill-background"
                 stroke="none"
                 fontSize={12}
-                formatter={(value) =>
-                  chartConfig[value] ? chartConfig[value].label : value
-                }
               />
+              {chartData.map((entry, idx) => (
+                <Cell
+                  key={`cell-${idx}`}
+                  fill={colors[idx] || colors[colors.length - 1]}
+                />
+              ))}
             </Pie>
           </PieChart>
         </ChartContainer>
       </CardContent>
+
       <CardFooter className="flex-col p-0 py-6 gap-4 md:w-40 w-35 items-center justify-between text-sm">
-        <div className="flex items-center gap-2  leading-none font-semibold md:text-[1rem]">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-8" />
-        </div>
+        <span className="flex items-center gap-2 leading-none font-semibold md:text-[1rem]">
+          Trending up this week
+          <TrendingUp className="h-4 w-8" />
+        </span>
         <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
+          Showing top 3 products sold in last 7 days
         </div>
       </CardFooter>
     </Card>

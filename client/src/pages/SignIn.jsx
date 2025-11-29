@@ -16,8 +16,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { RouteIndex, RouteSignUp } from "../components/Helpers/RouteNames";
 import { getEnv } from "../components/Helpers/getEnv";
 import { showToast } from "../components/Helpers/ShowToast";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/user/user.slice";
+import GoogleLogin from "../components/GoogleLogin";
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const formSchema = z.object({
     email: z.string().email(),
@@ -53,6 +57,7 @@ const SignIn = () => {
       }
 
       showToast("success", data.message);
+      dispatch(setUser(data.user));
       navigate(RouteIndex);
     } catch (error) {
       showToast("error", error.message);
@@ -64,7 +69,13 @@ const SignIn = () => {
       <Card className="w-[350px] p-5 mb-5 ">
         <div className="flex flex-col text-2xl font-bold text-center mb-3">
           Good to See You Again!
-          <span className="text-[#8B5CF6]"> Let’s get you signed in</span>
+          <span className="text-[#bd7eff]"> Let’s get you signed in</span>
+        </div>
+        <div className="">
+          <GoogleLogin />
+          <div className="flex items-center justify-center mt-8 border">
+            <span className="absolute bg-[#bd7eff] p-1 rounded-sm">OR</span>
+          </div>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

@@ -4,6 +4,11 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import AuthRoute from './routes/Auth.route.js'
+import UserRoute from './routes/User.route.js'
+import CategoryRoute from './routes/Category.route.js'
+import ProductRoute from './routes/Product.route.js'
+import CartRoute from './routes/cart.route.js'
+import statsRoute from "./routes/stats.route.js";
 dotenv.config()
 
 const Port = process.env.PORT
@@ -12,12 +17,18 @@ app.use(cookieParser())
 app.use(express.json());
 app.use(cors({
     origin:process.env.FRONT_END_URL,
-    credentials: true
+    credentials: true,
+       exposedHeaders: ["Content-Disposition"],
 }))
 
 //route setup
 
 app.use('/api/auth', AuthRoute);
+app.use('/api/user', UserRoute);
+app.use('/api/category', CategoryRoute);
+app.use('/api/product', ProductRoute);
+app.use('/api/cart', CartRoute);
+app.use("/api/stats", statsRoute);
 
 mongoose.connect(process.env.MONGO_DB_KEY,{DbName:'ha-inventory'}).then(()=>{
     console.log('DataBase connected')
